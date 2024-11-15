@@ -12,6 +12,13 @@ public class VendaController {
 	private Venda venda;
 	private EstoqueController estoqueController;
 	
+	
+	
+	public VendaController(EstoqueController estoqueController) {
+		this.venda = new Venda(estoqueController);
+		this.estoqueController = estoqueController;
+	}
+
 	public VendaController(Funcionario funcionario, Cliente cliente) {
 		this.venda = new Venda(funcionario, cliente);
 		this.estoqueController = new EstoqueController();
@@ -19,7 +26,6 @@ public class VendaController {
 	
 	public void realizarVenda(Produto produto, int quantidade) {
 		this.venda.adicionarProdutoVenda(produto, quantidade);
-		this.estoqueController.removerProdutoEstoque(produto, quantidade);
 	}
 	
 	public void realizarVenda(Servico servico, int quantidade) {
@@ -32,6 +38,11 @@ public class VendaController {
 	}
 	
 	public void fecharVenda() {
+		
+		for(ItemVenda  itensDaVenda : this.venda.getItensVenda() ) {
+			this.estoqueController.removerProdutoEstoque(itensDaVenda.getProduto().getNomeProduto(), itensDaVenda.getQuantidade());
+		}
+	
 		this.venda.fecharVenda();
 	}
 	

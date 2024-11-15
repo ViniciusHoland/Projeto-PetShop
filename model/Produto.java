@@ -21,9 +21,8 @@ public class Produto {
 		
 	}
 	
-	public Produto cadastrarProduto(String nomeProduto, double precoProduto) {
-		Produto novoProduto = new Produto(nomeProduto,precoProduto);
-		return novoProduto;
+	public Produto cadastrarProduto(Produto produto) {
+		return produto;
 	}
 	
 	

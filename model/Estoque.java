@@ -1,68 +1,67 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Estoque {
 	
-	private Produto produto;
-	private int quantidade;
-	private HashMap<Produto,Integer> produtosHashMap;
+	private ArrayList<ItemEstoque> itensProdutosEstoque;
 	
 	
 	public Estoque() {
-		produtosHashMap = new HashMap<Produto, Integer>();
+		itensProdutosEstoque =  new ArrayList<ItemEstoque>();
 	}
 	
 	// cadastra produtos
-	public void cadastraEstoqueProduto(Produto produto, Integer quantidade) {
-		produtosHashMap.put(produto, quantidade);
+	public void cadastraEstoqueProduto(Produto produto, int quantidade) {
+		ItemEstoque itemEstoque = new ItemEstoque(produto.getIdProduto() ,produto, quantidade);
+		
+		itensProdutosEstoque.add(itemEstoque);
 	}
 	
 	public void listarProdutosEstoque() {
-		for(Map.Entry<Produto, Integer> produtoKeyValue : produtosHashMap.entrySet()) {
-			System.out.println("Produto " + produtoKeyValue.getKey().getNomeProduto() + " Quant " + produtoKeyValue.getValue());
+		System.out.println("Lista dos Produtos");
+		
+		if(itensProdutosEstoque.isEmpty()) {
+			System.out.println("O estoque está vazio");
+			return;
+		}
+		
+		for(ItemEstoque produtoNoEstoque : itensProdutosEstoque) {
+			
+			System.out.println("Id " + produtoNoEstoque.getId() + " - "  + produtoNoEstoque.getProduto().getNomeProduto()+  " - Quant " + produtoNoEstoque.getQuantidade());
 		}
 	}
 	
-	public void removeProduto(Produto produto, Integer quantidade) {
+	public Produto buscarProduto(String nome) {
+		boolean encontrado = false;
 		
-		if(produtosHashMap.isEmpty()) {
-			System.out.println("Nenhum produto cadastrado");
-		} else {
-			int quantidadeAtual =  produtosHashMap.get(produto);
-			
-			if(quantidade > 0 ) {
-				produtosHashMap.put(produto, quantidadeAtual - quantidade);
+		for(ItemEstoque produtosNoEstoque : itensProdutosEstoque) {
+			Produto produto = produtosNoEstoque.getProduto();
+			if(produto.getNomeProduto().equalsIgnoreCase(nome)) {
+				encontrado = true;
+				return produto;
+			}
+		}
+		if(!encontrado) {
+			System.out.println("Produto não encontrado " + nome);
+		}
+		return null;
+	}
+	
+	
+	public void removeProduto(String nomeProduto, Integer quantidade) {
+		
+		for(ItemEstoque produtosNoEstoque : itensProdutosEstoque) {
+			Produto produto = produtosNoEstoque.getProduto();
+			if(produto.getNomeProduto().equalsIgnoreCase(nomeProduto)) {
+				produtosNoEstoque.setQuantidade(produtosNoEstoque.getQuantidade() - quantidade);
 			}
 		}
 		
-		
-		
 	}
 
-	
-	public Produto getProduto() {
-		return produto;
-	}
-
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
-
-	public int getQuantidade() {
-		return quantidade;
-	}
-
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
-	}
-	
-	
-	
-	
-	
-	
 	
 	
 }

@@ -1,6 +1,10 @@
 package model;
 
+import java.security.cert.CertificateNotYetValidException;
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import controllerTeste.EstoqueController;
 
 public class Venda {
 	
@@ -11,15 +15,18 @@ public class Venda {
 	private double totalProduto;
 	private double totalServico;
 	
-	public Venda(Funcionario funcionario,Cliente cliente) {
+	public Venda(Funcionario funcionario, Cliente cliente) {
 		this.funcionario = funcionario;
 		this.cliente = cliente;
 		this.itensVenda = new ArrayList<ItemVenda>();
 		this.itensservicos= new ArrayList<ItemServico>();
+	
 	}
 	
-	public Venda() {
-		
+	public Venda(EstoqueController estoqueController) {
+		this.itensVenda = new ArrayList<ItemVenda>();
+		this.itensservicos= new ArrayList<ItemServico>();
+
 	}
 	
 	public void adicionarProdutoVenda(Produto produto,int quantidade) {
@@ -51,9 +58,9 @@ public class Venda {
 	
 	public void fecharVenda() {
 		System.out.println("Finalizando Venda...");
-		System.out.println("O cliente " + this.cliente.getNomeCliente() + " Realizou a compra");
+		//System.out.println("O cliente " + this.cliente.getNomeCliente() + " Realizou a compra");
 		detalharVenda();
-		System.out.println("O funcionario " + this.funcionario.getNomeFuncionario() + " finalizou a venda");
+		//System.out.println("O funcionario " + this.funcionario.getNomeFuncionario() + " finalizou a venda");
 	}
 
 	public Funcionario getFuncionario() {
